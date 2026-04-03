@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+dro_env/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Proyecto específico
+orders_output/
+dashboard/data/*.json
+events.json
+*.log
+
+# Blockchain
+blockchain/artifacts/
+blockchain/cache/
+hardhat-node.log
+
+# Secrets
+config.py
+!config.example.py
+
+# OS
+.DS_Store
+Thumbs.db
