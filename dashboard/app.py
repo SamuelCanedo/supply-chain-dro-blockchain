@@ -9,12 +9,11 @@ from streamlit_autorefresh import st_autorefresh
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from services.blockchain import get_status
-from services.data_loader import load_orders, load_events, load_metrics
+from services.data_loader import load_orders, load_metrics, load_epsilon_history
 
 from components.kpis import render_kpis, render_advanced_kpis
-from components.charts import render_stock_chart
+from components.charts import render_stock_chart, render_epsilon_chart
 from components.orders import render_orders
-from components.events import render_events
 from components.health import render_health
 from components.exporter import render_export_button
 
@@ -34,7 +33,6 @@ st_autorefresh(interval=2000, key="datarefresh") # 2 seconds
 
 status = get_status()
 orders = load_orders(20)
-events = load_events()
 metrics = load_metrics()
 epsilon_history = load_epsilon_history()
 
@@ -73,13 +71,10 @@ with col3:
 
 st.divider()
 
-col5, col6 = st.columns(2)
+col5 = st.columns(1)[0]
 
 with col5:
     render_orders(orders)
-
-with col6:
-    render_events(events)
 
 st.divider()
 
