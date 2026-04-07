@@ -16,12 +16,13 @@ from components.charts import render_stock_chart
 from components.orders import render_orders
 from components.events import render_events
 from components.health import render_health
+from components.exporter import render_export_button
 
 ## Configuration
 
 st.set_page_config(layout="wide")
 
-st.title("🧠 Supply Chain Control Tower (DRO + Blockchain)")
+st.title("Supply Chain Control Tower (DRO + Blockchain)")
 
 ## Auto-refresh every REFRESH_RATE seconds
 
@@ -35,6 +36,7 @@ status = get_status()
 orders = load_orders(20)
 events = load_events()
 metrics = load_metrics()
+epsilon_history = load_epsilon_history()
 
 # -----------------------------
 # KPIS
@@ -57,17 +59,28 @@ st.divider()
 col1, col2 = st.columns([2, 1])
 
 with col1:
-    render_stock_chart(status, orders)
+    render_stock_chart(status)
 
 with col2:
     render_health(status)
-    
+
 st.divider()
 
-col3, col4 = st.columns(2)
+col3 = st.columns(1)[0]
 
 with col3:
+    render_epsilon_chart(epsilon_history)
+
+st.divider()
+
+col5, col6 = st.columns(2)
+
+with col5:
     render_orders(orders)
 
-with col4:
+with col6:
     render_events(events)
+
+st.divider()
+
+render_export_button()
