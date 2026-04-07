@@ -14,7 +14,7 @@ account = w3.eth.account.from_key(PRIVATE_KEY)
 contract_address = CONTRACT_ADDRESS
 
 # Contract ABI (you can get it from artifacts/contracts/inventoryDRO.sol/inventoryDRO.json)
-with open("blockchain/artifacts/contracts/inventoryDRO.sol/inventoryDRO.json") as f:
+with open("artifacts/contracts/inventoryDRO.sol/inventoryDRO.json") as f:
     abi = json.load(f)["abi"]
 
 contract = w3.eth.contract(address=contract_address, abi=abi)
