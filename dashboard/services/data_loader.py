@@ -5,6 +5,14 @@ import json
 import streamlit as st
 from integration.orders.order_generator import get_recent_orders
 
+def load_epsilon_history():
+    """Load epsilon history from file"""
+    try: 
+        with open("dashboard/data/epsilon_history.json", "r") as f:
+            return json.load(f)
+    except:
+        return []
+        
 def load_orders(n=20):
     return get_recent_orders(n)
 
