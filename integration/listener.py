@@ -14,7 +14,7 @@ integration_dir = os.path.dirname(current_file)
 project_dir = os.path.dirname(integration_dir)
 
 # Correct path to the ABI
-abi_path = os.path.join(project_dir, "blockchain", "artifacts", "contracts", "inventoryDRO.sol", "inventoryDRO.json")
+abi_path = os.path.join(project_dir, "artifacts", "contracts", "inventoryDRO.sol", "inventoryDRO.json")
 
 print(f"=== DEBUG ===")
 print(f"Current file: {current_file}")
