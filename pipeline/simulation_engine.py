@@ -102,7 +102,8 @@ def compare_policies(
     demand,
     dro_Q,
     baseline_quantile=0.65,
-    lead_time= np.random.randint(2, 6)
+    lead_time= np.random.randint(2, 6),
+    epsilon=None
 ):
     """
     Compare two inventory policies (baseline and DRO) in terms of costs and CVaR.
@@ -149,6 +150,7 @@ def compare_policies(
     metrics = {
         "baseline_Q": int(baseline_Q),
         "dro_Q": int(dro_Q),
+        "epsilon": epsilon if epsilon is not None else 0,
 
         "savings_pct": float(round(
            (savings / baseline["total_cost"]) * 100, 2
