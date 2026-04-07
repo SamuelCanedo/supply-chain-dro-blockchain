@@ -128,15 +128,66 @@ def run_decision(model_type="wasserstein"):
     print("\n📊 KPIs:")
     print(metrics)
     
+    # ----------------------------------------------------------
+    # 6. Keep history of epsilon for the dashboard
+    # ----------------------------------------------------------
+    
+    epsilon_path = "dashboard/data/epsilon_history.json"
+    os.makedirs("dashboard/data", exist_ok=True)
+
+    history = []
+    if os.path.exists(epsilon_path):
+        with open(epsilon_path, "r") as f:
+            history = json.load(f)
+    
+    history.append({
+        "timestamp": pd.Timestamp.now().isoformat(),
+        "epsilon": float(epsilon)
+    })
+
+    # keep only the last 100 entries to avoid file bloat
+    if len(history) > 100:
+        history = history[-100:]
+
+    with open(epsilon_path, "w") as f:
+        json.dump(history, f)
+
+    # ----------------------------------------------------------
+    # 6.1. Save complete history of metrics for the dashboard
+    # ----------------------------------------------------------
+    
+    metrics_path = "dashboard/data/metrics_history.json"
+    metrics_history = []
+    if os.path.exists(metrics_path):
+        with open(metrics_path, "r") as f:
+            metrics_history = json.load(f)
+    
+    metrics_with_time = metrics.copy()
+    metrics_with_time["timestamp"] = pd.Timestamp.now().isoformat()
+    metrics_with_time["Q_opt"] = int(Q_opt)
+    metrics_with_time["epsilon"] = float(epsilon)
+    metrics_with_time["risk"] = float(risk)
+    metrics_with_time["model"] = model_type
+    metrics_with_time["savings_usd"] = float(metrics.get("savings_usd", 0))
+    metrics_with_time["cvar_savings"] = float(metrics.get("cvar_savings", 0))
+
+    metrics_history.append(metrics_with_time)
+
+    if len(metrics_history) > 1000:
+        metrics_history = metrics_history[-1000:]
+        
+    with open(metrics_path, "w") as f:
+        json.dump(metrics_history, f)
+    
     #----------------------------------------------------
-    # 6. GENERATE ORDER (record the decision, simulate user action)
+    # 7. GENERATE ORDER (record the decision, simulate user action)
     #----------------------------------------------------
     order = generate_order(Q_opt)
     if order:
         print(f"✅ Order generated: {order['order_id']}")
     
     #----------------------------------------------------
-    # 7. SEND DECISION TO BLOCKCHAIN
+    # 8. SEND DECISION TO BLOCKCHAIN
     #----------------------------------------------------
     forecast_total = float(np.sum(forecast))
     
