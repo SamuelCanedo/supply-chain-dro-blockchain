@@ -15,7 +15,7 @@ project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(_
 ## Initialize Web3 and contract
 
 
-json_path = os.path.join(project_root, "blockchain", "artifacts", "contracts", "inventoryDRO.sol", "inventoryDRO.json")
+json_path = os.path.join(project_root, "artifacts", "contracts", "inventoryDRO.sol", "inventoryDRO.json")
 
 with open(json_path) as f:
     abi = json.load(f)["abi"]
