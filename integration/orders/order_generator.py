@@ -38,6 +38,7 @@ project_dir = os.path.dirname(integration_dir)  # .../project
 # Correct path to the ABI
 abi_path = os.path.join(
     project_dir, 
+    "artifacts",
     "contracts", 
     "inventoryDRO.sol", 
     "inventoryDRO.json"
