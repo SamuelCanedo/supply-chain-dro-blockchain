@@ -90,6 +90,10 @@ py -m integration.listener
 # Terminal 4 - Run simulator:
 bash
 py simulate_live.py
+```
+
+<img width="1873" height="888" alt="image" src="https://github.com/user-attachments/assets/e592cd47-b420-4fe4-9a31-92622eaecfed" />
+
 
 # Terminal 5 - Start dashboard:
 bash
