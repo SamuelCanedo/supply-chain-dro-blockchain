@@ -6,99 +6,92 @@
 
 ## 🎯 Overview
 
-Sistema de optimización de inventario que integra:
-- **DRO Wasserstein** con optimización CVaR
-- **Smart contracts** en Solidity para trazabilidad
-- **Dashboard** en tiempo real con Streamlit
+Inventory optimization system integrating:
+- **Wasserstein DRO** with CVaR optimization
+- **Smart contracts** in Solidity for traceability
+- **Real-time dashboard** with Streamlit
 
-## 📊 Resultados
+## 📊 Results
 
-| Métrica | Mejora |
-|---------|--------|
-| Ahorro vs baseline | 2-15% |
-| Reducción de stockouts | 10-20% |
-| Protección CVaR | $100-200/ciclo |
+| Metric | Improvement |
+|--------|-------------|
+| Savings vs baseline | 2-15% |
+| Stockout reduction | 10-20% |
+| CVaR protection | $100-200/cycle |
 
-## 🏗️ Arquitectura
+## 🏗️ Architecture
 Demand Simulator → Forecast → DRO Optimizer → Blockchain → Dashboard
-
 
 ## 🚀 Quick Start
 
-### Prerrequisitos
+### Prerequisites
 - Python 3.10+
-- Node.js 16+ (para Hardhat)
+- Node.js 16+ (for Hardhat)
 - Git
 
-### Instalación
+### Installation
 
 ```bash
-# Clonar repositorio
-git clone https://github.com/TU_USUARIO/immutable_system.git
-cd immutable_system
+# Clone repository
+git clone git@github.com:SamuelCanedo/supply-chain-dro-blockchain.git
+cd supply-chain-dro-blockchain
 
-# Crear entorno virtual
+# Create virtual environment
 python -m venv dro_env
 source dro_env/bin/activate  # Linux/Mac
 # dro_env\Scripts\activate   # Windows
 
-# Instalar dependencias
+# Move contracts folder to root and delete blockchain folder
+# From: blockchain/contracts/ → To: contracts/
+
+# Install dependencies
 pip install -r requirements.txt
 
-# Configurar variables de entorno
+# Configure environment variables
 cp config.example.py config.py
-# Editar config.py con tus valores
+# Edit config.py with your values once you run the node and the contract
 
-# Iniciar blockchain local
+# Install Hardhat (if not installed)
+npm install hardhat@2.22.0 --save-dev
+npm install --save-dev @nomicfoundation/hardhat-toolbox@5.0.0
+
+# Create hardhat.config.js
+New-Item -Path hardhat.config.js -ItemType File -Force
+
+## Add this to hardhat.config.js:
+"""
+require("@nomicfoundation/hardhat-toolbox");
+
+module.exports = {
+  solidity: "0.8.28",
+  networks: {
+    localhost: {
+      url: "http://127.0.0.1:8545"
+    }
+  }
+};
+"""
+```
+
+### Run the System
+```bash
+# Terminal 1 - Start blockchain:
+bash
 npx hardhat node
 
-# Desplegar contrato (en otra terminal)
+# Terminal 2 - Deploy contract:
+bash
 npx hardhat run scripts/deploy.js --network localhost
 
-# Ejecutar simulador
-python simulate_live.py
+# Terminal 3 - Run listener:
+bash
+py -m integration.listener
 
-# Iniciar dashboard (en otra terminal)
+# Terminal 4 - Run simulator:
+bash
+py simulate_live.py
+
+# Terminal 5 - Start dashboard:
+bash
 streamlit run dashboard/app.py
-
-# Estructura
-├── blockchain/          # Smart contracts
-├── dashboard/           # Streamlit UI
-├── pipeline/            # DRO + Forecast models
-├── integration/         # Blockchain integration
-└── scripts/             # Deployment scripts
-
-# Tecnologias 
-- Backend: Python, NumPy, Pandas
-
-- ML: DRO Wasserstein, CVaR
-
-- Blockchain: Solidity, Hardhat, Web3.py
-
-- Frontend: Streamlit
-
-# Dashboard
-- Stock en tiempo real
-
-- KPIs de rendimiento
-
-- Historial de decisiones
-
-- Alertas automáticas
-
-# Ciclo de decision
-1. Generar demanda simulada
-
-2. Forecast 30 días
-
-3. DRO calcula Q_opt
-
-4. Actualizar blockchain
-
-5. Dashboard refresca cada 2s
-
-# Licence 
-MIT
-
-# Author 
-Samuel Canedo Linkedin: www.linkedin.com/in/samuelcanedo
+```
