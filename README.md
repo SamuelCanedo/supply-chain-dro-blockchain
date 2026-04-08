@@ -63,6 +63,10 @@ Optimize safety stocks using a robust approach to uncertainty (Distributionally 
 - Stockout cost
 - Tail risk (CVaR - Conditional Value at Risk)
 
+**Example of the math**
+
+<img width="600" height="200" alt="image" src="https://github.com/user-attachments/assets/db644805-b8cd-4f7d-b957-a44350c02134" />
+
 **Process**: 
 1. Take historical data (last 60 days) + forecast (15 days)
 2. Generate 200 bootstrap demand scenarios
@@ -197,7 +201,7 @@ streamlit run dashboard/app.py
 | Q_opt DRO vs Baseline | +19.5 units | Similar (+20 approx.) | DRO orders ~10-12% more |
 
 ### Conclusions
-The DRO-Wasserstein model is performing consistently. It generates modest but positive savings (2.5% → 3.9%) and slightly reduces stockouts. The risk protection (CVaR) is generally positive, although in some cycles it is negative (which is normal in simulation).
+The DRO-Wasserstein model is performing consistently. It generates modest but positive savings (2.5% → 3.9%) and slightly reduces stockouts. The risk protection (CVaR) is generally positive, although in some cycles it is negative (which is normal in simulation). With an average of 10 - 12% + on the orders the model rathers to pay more stock to avoid the risk of the tail (CVaR).
 
 
 ## Implementation gaps that can be developed on future versions
